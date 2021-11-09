@@ -1,7 +1,8 @@
 <template>
-  <b-card class="m-3">
+  <div>
+    <h1>Add Task</h1>
     <Form @submit="onSubmit" />
-  </b-card>
+  </div>
 </template>
 <script lang="ts">
 import Vue from "vue";

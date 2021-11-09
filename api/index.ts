@@ -42,7 +42,7 @@ app.get('/todo/:id', (req, res) => {
   const item = database.findById(req.params.id);
 
   if (!item) {
-    res.sendStatus(404)
+    return res.sendStatus(404)
   }
 
   res.send({ item })

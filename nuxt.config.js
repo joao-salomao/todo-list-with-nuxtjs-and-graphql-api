@@ -1,7 +1,7 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'todo_list_nuxtjs_with_graphql_api',
+    title: 'Todo',
     htmlAttrs: {
       lang: 'en'
     },
@@ -55,7 +55,7 @@ export default {
   loading: {
     color: 'DodgerBlue',
     height: '10px',
-    continuous: true,
+    // continuous: true,
     duration: 3000
   }
 }
