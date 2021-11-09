@@ -46,8 +46,13 @@ app.get('/todo/:id', (req, res) => {
   }
 
   res.send({ item })
-})
+});
 
+app.delete('/todo/:id', (req, res) => {
+  database.remove(req.params.id);
+
+  res.send();
+});
 
 export default {
   path: '/api',
