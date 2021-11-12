@@ -1,40 +1,27 @@
 import { v4 as uuidv4 } from 'uuid';
 
-interface ItemInterface {
+interface ITodo {
   id: string;
   title: string;
   description: string;
 }
 
-interface TodoListInterface {
-  add(data: { title: string, description: string }): ItemInterface;
-  remove(id: string): void;
-  update(id: string, data: { title: string, description: string }): ItemInterface | undefined;
-  findById(id: string): ItemInterface | undefined;
-  all(): ItemInterface[];
+interface ITodoList {
+  add(data: { title: string, description: string }): ITodo;
+  remove(id: string): boolean;
+  update(id: string, data: { title: string, description: string }): ITodo | undefined;
+  findById(id: string): ITodo | undefined;
+  all(): ITodo[];
 }
 
-class Item implements ItemInterface {
-  id: string;
-  title: string;
-  description: string;
-
-  constructor(id: string, title: string, description: string) {
-    this.id = id;
-    this.title = title;
-    this.description = description;
-  }
-}
-
-
-class InMemoryDatabase implements TodoListInterface {
-  private items: Item[];
+class InMemoryDatabase implements ITodoList {
+  private items: ITodo[];
 
   constructor() {
     this.items = [
       {
-        id: uuidv4(),
-        title: "Laborum velit aliqua sint exercitation quis aliqua amet exercitation consectetur non",
+        id: "1a0f4ca5-e503-41e4-ad66-e7e9e4626940",
+        title: "Item 1",
         description: "Consequat non occaecat non ullamco Lorem in et irure proident"
       },
       {
@@ -45,22 +32,32 @@ class InMemoryDatabase implements TodoListInterface {
     ];
   }
 
-  add(data: { title: string, description: string }): Item {
+  add(data: { title: string, description: string }): ITodo {
     const id = uuidv4();
     const { title, description } = data;
 
-    const item: Item = { id, title, description }
+    const item: ITodo = { id, title, description }
 
     this.items.push(item);
 
     return item;
   }
 
+  remove(id: string): boolean {
+    const index = this.items.findIndex(item => {
+      return item.id == id
+    });
 
-  remove(id: string): void {
-    this.items = this.items.filter(item => item.id !== id);
+    if (index == -1) {
+      return false;
+    }
+
+    this.items.splice(index, 1);
+
+    return true
   }
-  update(id: string, data: { title: string, description: string }): Item | undefined {
+
+  update(id: string, data: { title: string, description: string }): ITodo | undefined {
     const item = this.findById(id);
 
     if (item) {
@@ -71,13 +68,15 @@ class InMemoryDatabase implements TodoListInterface {
 
     return item;
   }
-  findById(id: string): Item | undefined {
+
+  findById(id: string): ITodo | undefined {
     return this.items.find(item => item.id === id);
   }
 
-  all(): Item[] {
+  all(): ITodo[] {
     return this.items;
   }
+
 }
 
 export default new InMemoryDatabase;
